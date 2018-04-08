@@ -12,7 +12,6 @@
     <RootNamespace>PyStdLib</RootNamespace>
     <StdLibPath>$(RootDir)\Src\StdLib\Lib</StdLibPath>
   </PropertyGroup>
-
   <PropertyGroup>
     <LibOutputDir>$(OutputPath)\Lib</LibOutputDir>
     <ExcludedPackages>
@@ -23,17 +22,120 @@
       Lib\*\tests\**\*.*
     </ExcludedPackages>
   </PropertyGroup>
-
   <ItemGroup>
     <Content Include="$(StdLibPath)\**\*.*" Exclude="$(ExcludedPackages)" />
-
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lib\" />
+    <Folder Include="Lib\asyncio\" />
+    <Folder Include="Lib\collections\" />
+    <Folder Include="Lib\concurrent\" />
+    <Folder Include="Lib\concurrent\futures\" />
+    <Folder Include="Lib\ctypes\" />
+    <Folder Include="Lib\ctypes\macholib\" />
+    <Folder Include="Lib\ctypes\test\" />
+    <Folder Include="Lib\curses\" />
+    <Folder Include="Lib\dbm\" />
+    <Folder Include="Lib\distutils\" />
+    <Folder Include="Lib\distutils\command\" />
+    <Folder Include="Lib\distutils\tests\" />
+    <Folder Include="Lib\email\" />
+    <Folder Include="Lib\email\mime\" />
+    <Folder Include="Lib\encodings\" />
+    <Folder Include="Lib\ensurepip\" />
+    <Folder Include="Lib\ensurepip\_bundled\" />
+    <Folder Include="Lib\html\" />
+    <Folder Include="Lib\http\" />
+    <Folder Include="Lib\idlelib\" />
+    <Folder Include="Lib\idlelib\Icons\" />
+    <Folder Include="Lib\idlelib\idle_test\" />
+    <Folder Include="Lib\importlib\" />
+    <Folder Include="Lib\json\" />
+    <Folder Include="Lib\lib2to3\" />
+    <Folder Include="Lib\lib2to3\fixes\" />
+    <Folder Include="Lib\lib2to3\pgen2\" />
+    <Folder Include="Lib\lib2to3\tests\" />
+    <Folder Include="Lib\lib2to3\tests\data\" />
+    <Folder Include="Lib\lib2to3\tests\data\fixers\" />
+    <Folder Include="Lib\lib2to3\tests\data\fixers\myfixes\" />
+    <Folder Include="Lib\logging\" />
+    <Folder Include="Lib\msilib\" />
+    <Folder Include="Lib\multiprocessing\" />
+    <Folder Include="Lib\multiprocessing\dummy\" />
+    <Folder Include="Lib\pydoc_data\" />
+    <Folder Include="Lib\site-packages\" />
+    <Folder Include="Lib\sqlite3\" />
+    <Folder Include="Lib\sqlite3\test\" />
+    <Folder Include="Lib\test\" />
+    <Folder Include="Lib\test\audiodata\" />
+    <Folder Include="Lib\test\capath\" />
+    <Folder Include="Lib\test\cjkencodings\" />
+    <Folder Include="Lib\test\crashers\" />
+    <Folder Include="Lib\test\data\" />
+    <Folder Include="Lib\test\decimaltestdata\" />
+    <Folder Include="Lib\test\encoded_modules\" />
+    <Folder Include="Lib\test\imghdrdata\" />
+    <Folder Include="Lib\test\leakers\" />
+    <Folder Include="Lib\test\sndhdrdata\" />
+    <Folder Include="Lib\test\subprocessdata\" />
+    <Folder Include="Lib\test\support\" />
+    <Folder Include="Lib\test\test_asyncio\" />
+    <Folder Include="Lib\test\test_email\" />
+    <Folder Include="Lib\test\test_email\data\" />
+    <Folder Include="Lib\test\test_importlib\" />
+    <Folder Include="Lib\test\test_importlib\builtin\" />
+    <Folder Include="Lib\test\test_importlib\extension\" />
+    <Folder Include="Lib\test\test_importlib\frozen\" />
+    <Folder Include="Lib\test\test_importlib\import_\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\both_portions\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\both_portions\foo\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\module_and_namespace_package\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\module_and_namespace_package\a_test\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\not_a_namespace_pkg\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\not_a_namespace_pkg\foo\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\portion1\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\portion1\foo\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\portion2\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\portion2\foo\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\project1\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\project1\parent\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\project1\parent\child\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\project2\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\project2\parent\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\project2\parent\child\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\project3\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\project3\parent\" />
+    <Folder Include="Lib\test\test_importlib\namespace_pkgs\project3\parent\child\" />
+    <Folder Include="Lib\test\test_importlib\source\" />
+    <Folder Include="Lib\test\test_json\" />
+    <Folder Include="Lib\test\test_tools\" />
+    <Folder Include="Lib\test\tracedmodules\" />
+    <Folder Include="Lib\test\xmltestdata\" />
+    <Folder Include="Lib\tkinter\" />
+    <Folder Include="Lib\tkinter\test\" />
+    <Folder Include="Lib\tkinter\test\test_tkinter\" />
+    <Folder Include="Lib\tkinter\test\test_ttk\" />
+    <Folder Include="Lib\turtledemo\" />
+    <Folder Include="Lib\unittest\" />
+    <Folder Include="Lib\unittest\test\" />
+    <Folder Include="Lib\unittest\test\testmock\" />
+    <Folder Include="Lib\urllib\" />
+    <Folder Include="Lib\venv\" />
+    <Folder Include="Lib\venv\scripts\" />
+    <Folder Include="Lib\venv\scripts\nt\" />
+    <Folder Include="Lib\venv\scripts\posix\" />
+    <Folder Include="Lib\wsgiref\" />
+    <Folder Include="Lib\xmlrpc\" />
+    <Folder Include="Lib\xml\" />
+    <Folder Include="Lib\xml\dom\" />
+    <Folder Include="Lib\xml\etree\" />
+    <Folder Include="Lib\xml\parsers\" />
+    <Folder Include="Lib\xml\sax\" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <Import Project="$(BeforeTargetFiles)" />
-
   <Target Name="Stage">
     <CopyStdLib SourceFiles="@(Content)" Destination="$(OutputPath)\Lib" BasePath="$(StdLibPath)" />
   </Target>
-
 </Project>
-
