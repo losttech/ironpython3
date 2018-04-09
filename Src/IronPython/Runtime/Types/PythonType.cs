@@ -861,7 +861,7 @@ type(name, bases, dict) -> creates a new type instance with the given name, base
         /// Allocates the storage for the instance running the .NET constructor.  This provides
         /// the creation functionality for __new__ implementations.
         /// </summary>
-        internal object CreateInstance(CodeContext/*!*/ context) {
+        public object CreateInstance(CodeContext/*!*/ context) {
             EnsureInstanceCtor();
 
             return _instanceCtor.CreateInstance(context);
@@ -871,7 +871,7 @@ type(name, bases, dict) -> creates a new type instance with the given name, base
         /// Allocates the storage for the instance running the .NET constructor.  This provides
         /// the creation functionality for __new__ implementations.
         /// </summary>
-        internal object CreateInstance(CodeContext/*!*/ context, object arg0) {
+        public object CreateInstance(CodeContext/*!*/ context, object arg0) {
             EnsureInstanceCtor();
 
             return _instanceCtor.CreateInstance(context, arg0);
@@ -881,7 +881,7 @@ type(name, bases, dict) -> creates a new type instance with the given name, base
         /// Allocates the storage for the instance running the .NET constructor.  This provides
         /// the creation functionality for __new__ implementations.
         /// </summary>
-        internal object CreateInstance(CodeContext/*!*/ context, object arg0, object arg1) {
+        public object CreateInstance(CodeContext/*!*/ context, object arg0, object arg1) {
             EnsureInstanceCtor();
 
             return _instanceCtor.CreateInstance(context, arg0, arg1);
@@ -891,7 +891,7 @@ type(name, bases, dict) -> creates a new type instance with the given name, base
         /// Allocates the storage for the instance running the .NET constructor.  This provides
         /// the creation functionality for __new__ implementations.
         /// </summary>
-        internal object CreateInstance(CodeContext/*!*/ context, object arg0, object arg1, object arg2) {
+        public object CreateInstance(CodeContext/*!*/ context, object arg0, object arg1, object arg2) {
             EnsureInstanceCtor();
 
             return _instanceCtor.CreateInstance(context, arg0, arg1, arg2);
@@ -901,7 +901,7 @@ type(name, bases, dict) -> creates a new type instance with the given name, base
         /// Allocates the storage for the instance running the .NET constructor.  This provides
         /// the creation functionality for __new__ implementations.
         /// </summary>
-        internal object CreateInstance(CodeContext context, params object[] args) {
+        public object CreateInstance(CodeContext context, params object[] args) {
             Assert.NotNull(args);
             EnsureInstanceCtor();
 
