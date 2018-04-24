@@ -2120,11 +2120,12 @@ namespace IronPython.Modules {
                     str = str.Replace("\n", _writeNL);
                 }
 
-                str = PythonOps.MakeString(StringOps.encode(context, str, _encoding, _errors));
+                Bytes bytes = StringOps.encode(context, str, this._encoding, this._errors);
+                str = PythonOps.MakeString(bytes);
                 if (_bufferTyped != null) {
                     _bufferTyped.write(context, str);
                 } else {
-                    PythonOps.Invoke(context, _buffer, "write", str);
+                    PythonOps.Invoke(context, _buffer, "write", bytes);
                 }
 
                 if (_line_buffering && (hasLF || str.Contains("\r"))) {
@@ -2879,22 +2880,25 @@ namespace IronPython.Modules {
             var cc = context.SharedContext;
             if (type == ConsoleStreamType.Input) {
                 var encoding = StringOps.GetEncodingName(io.InputEncoding);
-                var fio = new FileIO(cc, io.InputStream, type) { name = name };
-                var buffer = BufferedReader.Create(cc, fio, DEFAULT_BUFFER_SIZE);
-                return TextIOWrapper.Create(cc, buffer, encoding, null, null, true);
+                object fio = new FileIO(cc, io.InputStream, type) { name = name };
+                if (Console.IsInputRedirected)
+                    fio = BufferedReader.Create(cc, fio, DEFAULT_BUFFER_SIZE);
+                return TextIOWrapper.Create(cc, fio, encoding, null, null, true);
             }
             else if (type == ConsoleStreamType.Output) {
                 var encoding = StringOps.GetEncodingName(io.OutputEncoding);
-                var fio = new FileIO(cc, io.OutputStream, type) { name = name };
-                var buffer = BufferedWriter.Create(cc, fio, DEFAULT_BUFFER_SIZE, null);
-                return TextIOWrapper.Create(cc, buffer, encoding, null, null, true);
+                object fio = new FileIO(cc, io.OutputStream, type) { name = name };
+                if (Console.IsOutputRedirected)
+                    fio = BufferedWriter.Create(cc, fio, DEFAULT_BUFFER_SIZE, null);
+                return TextIOWrapper.Create(cc, fio, encoding, null, null, true);
             }
             else {
                 Debug.Assert(type == ConsoleStreamType.ErrorOutput);
                 var encoding = StringOps.GetEncodingName(io.ErrorEncoding);
-                var fio = new FileIO(cc, io.ErrorStream, type) { name = name };
-                var buffer = BufferedWriter.Create(cc, fio, DEFAULT_BUFFER_SIZE, null);
-                return TextIOWrapper.Create(cc, buffer, encoding, "backslashreplace", null, true);
+                object fio = new FileIO(cc, io.ErrorStream, type) { name = name };
+                if (Console.IsErrorRedirected)
+                    fio = BufferedWriter.Create(cc, fio, DEFAULT_BUFFER_SIZE, null);
+                return TextIOWrapper.Create(cc, fio, encoding, "backslashreplace", null, true);
             }
         }
 
