@@ -2011,6 +2011,11 @@ namespace IronPython.Runtime.Operations {
             return ie;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TKey> GetEnumerable<TKey, TValue>(IDictionary<TKey, TValue> dict) => dict.Keys;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<T> GetEnumerable<T>(IEnumerable<T> enumerable) => enumerable;
+
         // Lack of type restrictions allows this method to return the direct result of __iter__ without
         // wrapping it. This is the proper behavior for Builtin.iter().
         public static object GetEnumeratorObject(CodeContext/*!*/ context, object o) {
