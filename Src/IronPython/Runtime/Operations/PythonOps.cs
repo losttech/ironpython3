@@ -2015,6 +2015,40 @@ namespace IronPython.Runtime.Operations {
         public static IEnumerable<TKey> GetEnumerable<TKey, TValue>(IDictionary<TKey, TValue> dict) => dict.Keys;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> GetEnumerable<T>(IEnumerable<T> enumerable) => enumerable;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable GetEnumerable(IEnumerator enumerator) => new SingleRunEnumerable(enumerator);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<T> GetEnumerable<T>(IEnumerator<T> enumerator) => new SingleRunEnumerable<T>(enumerator);
+
+        class SingleRunEnumerable: IEnumerable {
+            IEnumerator enumerator;
+
+            public SingleRunEnumerable(IEnumerator enumerator) {
+                this.enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
+            }
+
+            public IEnumerator GetEnumerator() {
+                var result = this.enumerator ?? throw new InvalidOperationException();
+                this.enumerator = null;
+                return result;
+            }
+        }
+
+        class SingleRunEnumerable<T> : IEnumerable<T> {
+            IEnumerator<T> enumerator;
+
+            public SingleRunEnumerable(IEnumerator<T> enumerator) {
+                this.enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
+            }
+
+            public IEnumerator<T> GetEnumerator() {
+                var result = this.enumerator ?? throw new InvalidOperationException();
+                this.enumerator = null;
+                return result;
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        }
 
         // Lack of type restrictions allows this method to return the direct result of __iter__ without
         // wrapping it. This is the proper behavior for Builtin.iter().
