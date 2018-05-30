@@ -1037,7 +1037,8 @@ type(name, bases, dict) -> creates a new type instance with the given name, base
             }
         }
 
-        internal Type/*!*/ FinalSystemType {
+        [Obsolete("This API is not supported, and should not be used in client code")]
+        public Type/*!*/ FinalSystemType {
             get {
                 return _finalSystemType ?? (_finalSystemType = PythonTypeOps.GetFinalSystemType(_underlyingSystemType));
             }
