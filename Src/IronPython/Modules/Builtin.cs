@@ -1449,6 +1449,9 @@ Noteworthy: None is the `nil' object; Ellipsis represents `...' in slices.";
             return sum(context, sequence, 0);
         }
 
+        public static T sum<T>(CodeContext/*!*/ context, [NotNull]IEnumerable<T> sequence) => (T)sum(context, (object)sequence);
+        public static T sum<T>(CodeContext/*!*/ context, [NotNull]IEnumerable<T> sequence, T start) => (T)sum(context, (object)sequence, start);
+
         public static object sum(CodeContext/*!*/ context, [NotNull]List sequence) {
             return sum(context, sequence, 0);
         }
