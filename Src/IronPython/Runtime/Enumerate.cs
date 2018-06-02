@@ -35,7 +35,7 @@ namespace IronPython.Runtime {
     [PythonType("enumerate")]
     [Documentation("enumerate(iterable) -> iterator for index, value of iterable")]
     [DontMapIDisposableToContextManagerAttribute, DontMapIEnumerableToContains]
-    public class Enumerate : IEnumerator, IEnumerator<object> {
+    public class Enumerate : IEnumerator, IEnumerator<PythonTuple> {
         private readonly IEnumerator _iter;
         private object _index;
         
@@ -64,17 +64,9 @@ namespace IronPython.Runtime {
             throw new NotImplementedException();
         }
 
-        object IEnumerator.Current {
-            get {
-                return PythonTuple.MakeTuple(_index, _iter.Current);
-            }
-        }
+        object IEnumerator.Current => ((IEnumerator<PythonTuple>)this).Current;
 
-        object IEnumerator<object>.Current {
-            get {
-                return ((IEnumerator)this).Current;
-            }
-        }
+        PythonTuple IEnumerator<PythonTuple>.Current => PythonTuple.MakeTuple(_index, _iter.Current);
 
         bool IEnumerator.MoveNext() {
             if (_index is int) {
