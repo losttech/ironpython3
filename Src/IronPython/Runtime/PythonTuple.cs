@@ -623,6 +623,35 @@ namespace IronPython.Runtime {
         }
 
         #endregion
+
+        #region Deconstruct
+        public void Deconstruct<T1, T2>(out T1 item1, out T2 item2) {
+            if (_data.Length != 2)
+                throw new InvalidOperationException("wrong number of items");
+            item1 = (T1)_data[0];
+            item2 = (T2)_data[1];
+        }
+        public void Deconstruct<T1, T2, T3>(out T1 item1, out T2 item2, out T3 item3) {
+            if (_data.Length != 3)
+                throw new InvalidOperationException("wrong number of items");
+            item1 = (T1)_data[0];
+            item2 = (T2)_data[1];
+            item3 = (T3)_data[2];
+        }
+        public void Deconstruct(out object item1, out object item2) {
+            if (_data.Length != 2)
+                throw new InvalidOperationException("wrong number of items");
+            item1 = _data[0];
+            item2 = _data[1];
+        }
+        public void Deconstruct(out object item1, out object item2, out object item3) {
+            if (_data.Length != 3)
+                throw new InvalidOperationException("wrong number of items");
+            item1 = _data[0];
+            item2 = _data[1];
+            item3 = _data[2];
+        }
+        #endregion
     }
 
     /// <summary>
@@ -681,5 +710,14 @@ namespace IronPython.Runtime {
         }
 
         #endregion
+    }
+
+    public class PythonTuple<T1, T2> : PythonTuple {
+        public PythonTuple(T1 item1, T2 item2): base(new object[]{item1, item2}) {}
+
+        public void Deconstruct(out T1 item1, out T2 item2) {
+            item1 = (T1)_data[0];
+            item2 = (T2)_data[1];
+        }
     }
 }
