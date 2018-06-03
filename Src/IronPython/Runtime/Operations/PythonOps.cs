@@ -2019,6 +2019,13 @@ namespace IronPython.Runtime.Operations {
         public static IEnumerable GetEnumerable(IEnumerator enumerator) => new SingleRunEnumerable(enumerator);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> GetEnumerable<T>(IEnumerator<T> enumerator) => new SingleRunEnumerable<T>(enumerator);
+        public static IEnumerable GetEnumerable(dynamic obj) {
+            if (obj is IEnumerable enumerable)
+                return enumerable;
+            if (obj is IEnumerator enumerator)
+                return new SingleRunEnumerable(enumerator);
+            return new SingleRunEnumerable(GetEnumerator(obj));
+        }
 
         class SingleRunEnumerable: IEnumerable {
             IEnumerator enumerator;
