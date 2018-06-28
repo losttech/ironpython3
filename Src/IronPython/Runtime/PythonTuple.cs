@@ -34,6 +34,8 @@ using IronPython.Runtime.Types;
 using Utils = Microsoft.Scripting.Ast.Utils;
 
 namespace IronPython.Runtime {
+    using System.Globalization;
+    using System.Linq;
     using Ast = MSAst.Expression;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
@@ -133,6 +135,23 @@ namespace IronPython.Runtime {
 
         #endregion
 
+        static bool IsValueTuple(object o) =>
+            o != null
+            && o.GetType().IsConstructedGenericType
+            && o.GetType().GetGenericTypeDefinition()
+                .FullName.StartsWith("System.ValueTuple");
+
+        internal static PythonTuple TryConvertImplicitly(object o) {
+            switch (o) {
+            case PythonTuple tuple:
+                return tuple;
+            case object valueTuple when IsValueTuple(valueTuple):
+                return new PythonTuple(valueTuple);
+            default:
+                return null;
+            }
+        }
+
         internal static PythonTuple Make(object o) {
             if (o is PythonTuple) return (PythonTuple)o;
             return new PythonTuple(MakeItems(o));
@@ -145,29 +164,41 @@ namespace IronPython.Runtime {
 
         private static object[] MakeItems(object o) {
             object[] arr;
-            if (o is PythonTuple) {
-                return ((PythonTuple)o)._data;
-            } else if (o is string) {
-                string s = (string)o;
+            switch (o) {
+            case PythonTuple tuple:
+                return tuple._data;
+            case string s:
                 object[] res = new object[s.Length];
                 for (int i = 0; i < res.Length; i++) {
                     res[i] = ScriptingRuntimeHelpers.CharToString(s[i]);
                 }
                 return res;
-            } else if (o is List) {
-                return ((List)o).GetObjectArray();
-            } else if ((arr = o as object[])!=null) {
-                return ArrayOps.CopyArray(arr, arr.Length);
-            } else {
-                PerfTrack.NoteEvent(PerfTrack.Categories.OverAllocate, "TupleOA: " + PythonTypeOps.GetName(o));
+            case List list:
+                return list.GetObjectArray();
+            case object valueTuple when IsValueTuple(valueTuple):
+                var tupleType = valueTuple.GetType();
+                return tupleType.GetFields()
+                    .Where(f => f.Name.StartsWith("Item", StringComparison.InvariantCulture))
+                    .OrderBy(f => int.Parse(f.Name.Substring(4), CultureInfo.InvariantCulture))
+                    .Select(f => f.GetValue(valueTuple))
+                    .ToArray();
 
-                List<object> l = new List<object>();
-                IEnumerator i = PythonOps.GetEnumerator(o);
-                while (i.MoveNext()) {
-                    l.Add(i.Current);
+            case null:
+                return new object[]{null};
+            default:
+                if ((arr = o as object[])!=null) {
+                    return ArrayOps.CopyArray(arr, arr.Length);
+                } else {
+                    PerfTrack.NoteEvent(PerfTrack.Categories.OverAllocate, "TupleOA: " + PythonTypeOps.GetName(o));
+
+                    List<object> l = new List<object>();
+                    IEnumerator i = PythonOps.GetEnumerator(o);
+                    while (i.MoveNext()) {
+                        l.Add(i.Current);
+                    }
+
+                    return l.ToArray();
                 }
-
-                return l.ToArray();
             }
         }
         

@@ -336,7 +336,7 @@ namespace IronPython.Runtime {
         }
 
         private object GetData(int index) {
-            PythonTuple dt = _data as PythonTuple;
+            PythonTuple dt = _data as PythonTuple ?? PythonTuple.TryConvertImplicitly(_data);
             if (dt != null) {
                 if (index < dt.__len__()) {
                     return dt[index];
@@ -410,8 +410,9 @@ namespace IronPython.Runtime {
 
         private void CheckDataUsed() {
             if (PythonOps.IsMappingType(DefaultContext.Default, _data) == ScriptingRuntimeHelpers.False) {
-                if ((!(_data is PythonTuple) && _dataIndex != 1) ||
-                    (_data is PythonTuple && _dataIndex != ((PythonTuple)_data).__len__())) {
+                var tuple = PythonTuple.TryConvertImplicitly(_data);
+                if ((tuple == null && _dataIndex != 1) ||
+                    (tuple != null && _dataIndex != tuple.__len__())) {
                     throw PythonOps.TypeError("not all arguments converted during string formatting");
                 }
             }
