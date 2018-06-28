@@ -631,6 +631,16 @@ namespace IronPython.Runtime {
             item1 = (T1)_data[0];
             item2 = (T2)_data[1];
         }
+        public void Deconstruct<T1, T2, T3, T4, T5>(
+            out T1 item1, out T2 item2, out T3 item3, out T4 item4, out T5 item5) {
+            if (_data.Length != 5)
+                throw new InvalidOperationException("wrong number of items");
+            item1 = (T1)_data[0];
+            item2 = (T2)_data[1];
+            item3 = (T3)_data[2];
+            item4 = (T4)_data[3];
+            item5 = (T5)_data[4];
+        }
         public void Deconstruct<T1, T2, T3>(out T1 item1, out T2 item2, out T3 item3) {
             if (_data.Length != 3)
                 throw new InvalidOperationException("wrong number of items");
