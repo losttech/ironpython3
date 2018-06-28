@@ -2015,10 +2015,7 @@ namespace IronPython.Runtime.Operations {
         public static IEnumerable<TKey> GetEnumerable<TKey, TValue>(IDictionary<TKey, TValue> dict) => dict.Keys;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> GetEnumerable<T>(IEnumerable<T> enumerable) => enumerable;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable GetEnumerable(IEnumerator enumerator) => new SingleRunEnumerable(enumerator);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<T> GetEnumerable<T>(IEnumerator<T> enumerator) => new SingleRunEnumerable<T>(enumerator);
+
         public static IEnumerable GetEnumerable(dynamic obj) {
             if (obj is IEnumerable enumerable)
                 return enumerable;
