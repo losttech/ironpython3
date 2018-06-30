@@ -84,6 +84,7 @@ namespace IronPython.Modules {
 
             public void __exit__(CodeContext/*!*/ context, params object[] excinfo) {
                 close(context);
+                GC.SuppressFinalize(this);
             }
 
             public void _checkClosed() {
@@ -351,7 +352,9 @@ namespace IronPython.Modules {
 
             #region IDisposable Members
 
-            void IDisposable.Dispose() { }
+            void IDisposable.Dispose() {
+                __exit__(this.context);
+            }
 
             #endregion
 

@@ -582,7 +582,9 @@ namespace IronPython.Modules {
 
             #region IDisposable methods
 
-            void IDisposable.Dispose() { }
+            void IDisposable.Dispose() {
+                __exit__(this.context);
+            }
 
             #endregion
 
